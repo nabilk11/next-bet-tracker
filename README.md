@@ -1,3 +1,12 @@
+# Sports Bet Tracker
+
+This app is designed to function as a journal for serious sports bettors to keep track of their sports betting and to keep thorough notes on strategies and methods they might use in order to improve their  betting in the future.
+
+
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
