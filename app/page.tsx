@@ -11,7 +11,7 @@ export default async function Home() {
         <Link href="/sign-in" className="text-4xl text-blue-500">
           Sign In
         </Link>
-        <span className="text-4xl mx-4">or Don't Have an Account?</span>
+        <span className="text-4xl mx-4">or Don&apos;t Have an Account?</span>
         <Link href="/sign-up" className="text-4xl text-blue-500">
           Sign Up
         </Link>

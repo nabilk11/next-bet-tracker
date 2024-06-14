@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Bet {
+  id       Int    @id @default(autoincrement())
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  type     String
+  sport    String
+  platform String
+
+  description String
+  amount      Float
+  odds        Float
+  result      String
+  plusMinus   Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model User {
+  id            String            @id @default(uuid())
+  createdAt     DateTime          @default(now())
+  email         String            @unique
+  name          String?
+  role          Role              @default(USER)
+  blogPosts     Blog[]
+  updatedAt     DateTime
+  stratComments StratComment[]
+  blogComments  BlogComment[]
+  bets          Bet[]
+  strategies    BettingStrategy[]
+}
+
+model Blog {
+  id            String        @id @default(uuid())
+  author        User          @relation(fields: [authorId], references: [id])
+  authorId      String
+  datePublished DateTime      @default(now())
+  title         String
+  subtitle      String
+  abstract      String
+  image         String
+  edits         String[]
+  mainLink      String
+  contactEmail  String
+  contactPhone  String
+  bodyText      String
+  tags          String[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  comments      BlogComment[]
+}
+
+model BettingStrategy {
+  id            Int            @id @default(autoincrement())
+  author        User           @relation(fields: [authorId], references: [id])
+  authorId      String
+  name          String
+  description   String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  tags          String[]
+  link          String
+  image         String
+  results       String[]
+  stratComments StratComment[]
+}
+
+model BlogComment {
+  id        Int      @id @default(autoincrement())
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  blog      Blog     @relation(fields: [blogId], references: [id])
+  blogId    String
+  bodyText  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StratComment {
+  id        Int             @id @default(autoincrement())
+  author    User            @relation(fields: [userId], references: [id])
+  userId    String
+  strategy  BettingStrategy @relation(fields: [stratId], references: [id])
+  stratId   Int
+  bodyText  String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
